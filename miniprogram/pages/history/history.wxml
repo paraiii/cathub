@@ -1,0 +1,66 @@
+<van-tabs active="{{ filterType }}" bind:change="onFilterChange" sticky color="#40c463">
+  <van-tab title="全部" name="all"></van-tab>
+  <van-tab title="体重" name="weight"></van-tab>
+  <van-tab title="呕吐" name="vomit"></van-tab>
+</van-tabs>
+
+<view class="history-list">
+  <van-cell 
+    wx:for="{{ historyLogs }}" 
+    wx:key="_id"
+    title="{{ item.type === 'weight' ? '⚖️ ' + item.value + 'kg' : '🤢 呕吐' }}" 
+    label="{{ item.date }} {{ item.timeStr }}{{ item.note ? ' · ' + item.note : '' }}"
+    is-link
+    bindtap="onSelectLog"
+    data-item="{{ item }}" 
+  />
+</view>
+
+<van-action-sheet
+  show="{{ isActionShow }}"
+  actions="{{ actions }}"
+  cancel-text="取消"
+  bind:close="onActionClose"
+  bind:select="onActionSelect"
+  bind:cancel="onActionClose"
+/>
+
+<van-dialog
+  use-slot
+  title="修改记录"
+  show="{{ isDialogShow }}"
+  show-cancel-button
+  bind:close="onDialogClose"    
+  bind:cancel="onDialogClose"   
+  bind:confirm="onDialogConfirm" 
+>
+  <view class="dialog-content" style="padding: 30rpx;">
+    <van-field
+      wx:if="{{ selectedLog.type === 'weight' }}"
+      label="体重"
+      value="{{ inputWeight }}"
+      placeholder="0.0 kg"
+      type="digit"
+      bind:change="onWeightInputChange"
+    />
+    <van-field
+      wx:else
+      label="说明"
+      value="{{ inputNote }}"
+      placeholder="选填备注"
+      bind:change="onNoteInputChange"
+    />
+    
+    <view class="time-picker-section" style="margin-top: 20rpx; border-top: 1rpx solid #eee; padding-top: 20rpx;">
+      <view style="font-size: 26rpx; color: #666; margin-bottom: 10rpx;">记录时间</view>
+      <van-datetime-picker
+        type="datetime"
+        value="{{ currentDate }}"
+        bind:input="onDateChange" 
+        item-height="40"
+        visible-item-count="3"
+        show-toolbar="{{ false }}"
+      />
+    </view>
+  </view>
+</van-dialog>

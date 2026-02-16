@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@qiun/ucharts": "^2.5.0-20230101",
+    "@vant/weapp": "^1.11.7"
+  }
+}

@@ -1,0 +1,45 @@
+page {
+  background-color: #f7f8fa;
+}
+
+/* 粘性布局 Tabs 的样式微调 */
+.van-tabs__wrap {
+  margin-bottom: 20rpx;
+}
+
+.history-list {
+  padding: 20rpx;
+  /* 确保列表下方有足够空间，不被底部可能存在的遮挡 */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 每一项记录的卡片感 */
+.history-list .van-cell {
+  margin-bottom: 16rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.02);
+}
+
+/* 类型图标或前缀的特殊颜色 */
+.type-weight {
+  color: #40c463;
+  font-weight: bold;
+}
+
+.type-vomit {
+  color: #ff4d4f;
+  font-weight: bold;
+}
+
+/* 时间标签的样式 */
+.van-cell__label {
+  margin-top: 8rpx;
+  color: #969799;
+  font-size: 24rpx;
+}
+
+.dialog-content {
+  padding: 30rpx;
+  margin-bottom: 20rpx; 
+}

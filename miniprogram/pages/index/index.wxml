@@ -1,0 +1,142 @@
+<view class="container">
+  <scroll-view scroll-y class="main-content">
+    <view class="cat-card">
+      <view class="card-title">本月最近记录</view>
+      <van-cell-group border="{{ false }}">
+        <block wx:if="{{ recentLogs.length > 0 }}">
+          <van-cell 
+            wx:for="{{ recentLogs }}" 
+            wx:key="_id"
+            title="{{ item.type === 'weight' ? '⚖️ 体重: ' + item.value + 'kg' : '🤢 呕吐' }}" 
+            value="{{ item.timeStr }}"
+            label="{{ item.note || '' }}"
+            is-link
+            bindtap="onSelectLog"
+            data-item="{{ item }}"
+          />
+        </block>
+        <view wx:else class="empty-tip">本月暂无数据</view>
+      </van-cell-group>
+
+      <view class="more-btn-wrapper" wx:if="{{ recentLogs.length > 0 }}">
+        <van-button plain type="primary" size="small" block bind:click="goToHistory">
+          查看所有历史记录
+        </van-button>
+      </view>
+    </view>
+
+    <view class="cat-card">
+      <view class="card-title">
+        <text>健康日历</text>
+        <text class="date-subtitle">{{ currentYear }}年{{ currentMonth }}月</text>
+      </view>
+
+      <view class="week-header">
+        <view wx:for="{{['一','二','三','四','五','六','日']}}" wx:key="*this">{{item}}</view>
+      </view>
+
+      <view class="calendar-grid">
+        <view wx:for="{{ calendarDays }}" wx:key="index" class="cal-day-cell">
+          <block wx:if="{{ !item.isEmpty }}">
+            <view class="cal-dot level-{{ item.level }}"></view>
+            <text class="cal-date">{{ item.day }}</text>
+          </block>
+        </view>
+      </view>
+    </view>
+
+    <view class="cat-card">
+      <view class="card-title">
+        <text>体重趋势 (kg)</text>
+        <view class="period-picker">
+          <view 
+            wx:for="{{ ['月', '年'] }}" 
+            wx:key="*this"
+            class="period-item {{ currentPeriod === item ? 'active' : '' }}"
+            bindtap="changePeriod"
+            data-type="{{ item }}"
+          >{{ item }}</view>
+        </view>
+      </view>
+
+      <view class="chart-container">
+        <canvas 
+          wx:if="{{ !isDialogShow && hasWeightData }}"
+          key="canvas-active"
+          type="2d" 
+          id="weightChart" 
+          class="my-canvas" 
+          bindtouchstart="touchHandler"
+        ></canvas>
+        
+        <view wx:elif="{{ isDialogShow }}" key="loading-state" class="my-canvas-placeholder">
+          <van-loading type="spinner" color="#40c463" vertical>记录中...</van-loading>
+        </view>
+
+        <view wx:else key="empty-state" class="empty-chart-tip">
+          <van-empty image="search" description="暂无体重记录" />
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <van-action-sheet
+    show="{{ isActionShow }}"
+    actions="{{ actions }}"
+    cancel-text="取消"
+    bind:close="onActionClose"
+    bind:select="onActionSelect"
+    bind:cancel="onActionClose"
+  />
+
+  <van-tabbar active="{{ activeTab }}" bind:change="onTabChange" active-color="#40c463">
+      <van-tabbar-item icon="flower-o">记录体重</van-tabbar-item>
+      <van-tabbar-item icon="warning-o">记录呕吐</van-tabbar-item>
+  </van-tabbar>
+</view>
+
+<van-dialog
+  use-slot
+  title="{{ dialogTitle }}"
+  show="{{ isDialogShow }}"
+  show-cancel-button
+  bind:close="onDialogClose"
+  bind:confirm="onDialogConfirm"
+>
+  <view class="dialog-content">
+    <van-field
+      wx:if="{{ activeTab === 0 }}"
+      label="体重"
+      value="{{ inputWeight }}"
+      placeholder="0.0 kg"
+      type="digit"
+      bind:change="onWeightInputChange"
+      custom-style="margin-bottom: 20rpx;"
+    />
+    <van-field
+      wx:if="{{ activeTab === 1 }}"
+      label="说明"
+      value="{{ inputNote }}"
+      placeholder="选填（如：由于吃太快）"
+      bind:change="onNoteInputChange"
+      custom-style="margin-bottom: 20rpx;"
+    />
+    
+    <view class="time-picker-section">
+      <view class="time-picker-label">
+        <van-icon name="clock-o" /> 记录时间
+      </view>
+      
+      <van-datetime-picker
+        wx:if="{{ isDialogShow }}"
+        type="datetime"
+        value="{{ currentDate }}"
+        bind:input="onDateChange" 
+        formatter="{{ formatter }}" 
+        item-height="40"
+        visible-item-count="3"
+        show-toolbar="{{ false }}"
+      />
+    </view>
+  </view>
+</van-dialog>

@@ -1,0 +1,183 @@
+page {
+  background-color: #f7f8fa;
+}
+
+.main-content {
+  /* 预留出 Tabbar 的高度，通常是 50px + 安全区域 */
+  padding-bottom: calc(100rpx + env(safe-area-inset-bottom));
+}
+
+.container {
+ min-height: 100vh;
+  background-color: #f7f8fa;
+}
+
+.cat-card {
+  background: #fff;
+  margin: 0 20rpx 30rpx;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  position: relative;
+  display: block; /* 确保不脱离文档流 */
+}
+
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-bottom: 24rpx;
+}
+
+/* 确保容器高度固定 */
+.chart-container {
+  width: 100%;
+  height: 520rpx; /* 🛠️ 稍微增加高度，给底部文字留空间 */
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+  padding: 0; 
+}
+
+.my-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* 占位符样式：模拟图表背景 */
+.my-canvas-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fbfbfb; /* 淡淡的灰色，模拟 Canvas 背景 */
+  border-radius: 12rpx;
+}
+
+/* 强制提升 Dialog 层级（虽然对 Canvas 无效，但对 Tabbar 有效） */
+.van-dialog {
+  z-index: 99999 !important;
+}
+
+.van-picker-column__item {
+  padding: 0 2px !important;
+  text-overflow: clip ; /* 允许溢出而不显示点点点 */
+}
+
+.week-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 22rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 严格 7 列 */
+  gap: 15rpx 10rpx; /* 上下间距 15，左右 10 */
+}
+
+.cal-day-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 80rpx; /* 确保空格子也占位 */
+}
+
+.cal-dot {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 10rpx;
+  background: #ebedf0;
+}
+
+.cal-date {
+  font-size: 20rpx;
+  color: #666;
+  margin-top: 8rpx;
+}
+
+/* 1次：绿色 */
+.cal-dot.level-1 { 
+  background: #9be9a8; 
+} 
+
+/* 2-3次：红色 */
+.cal-dot.level-2 { 
+  background: #ff7875; /* 浅红/红色 */
+} 
+
+/* 超过3次：深红色 */
+.cal-dot.level-3 { 
+  background: #cf1322; /* 深红色，更具警示性 */
+}
+
+.cal-date { font-size: 18rpx; color: #999; margin-top: 4rpx; }
+
+.period-picker {
+  display: flex;
+  background: #f0f0f0;
+  border-radius: 20rpx;
+  padding: 4rpx;
+}
+.period-item {
+  font-size: 22rpx;
+  padding: 6rpx 24rpx;
+  color: #666;
+}
+.period-item.active {
+  background: #fff;
+  color: #40c463;
+  border-radius: 16rpx;
+  font-weight: bold;
+}
+
+.time-picker-section {
+  border-top: 1rpx solid #ebedf0;
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+}
+.time-picker-label {
+  font-size: 26rpx;
+  padding: 0 32rpx 20rpx;
+  color: #646566;
+}
+
+.more-btn-wrapper {
+  margin-top: 20px;
+}
+
+.empty-chart-tip {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fbfbfb;
+  border-radius: 12rpx;
+}
+
+/* 缩放一下 Vant Empty 组件的大小以适应卡片 */
+.empty-chart-tip .van-empty {
+  padding: 0;
+}
+
+/* 强制 Dialog 底部动作条居中 */
+.van-dialog__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 确保每个按钮平分宽度并文字居中 */
+.van-dialog__button {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
