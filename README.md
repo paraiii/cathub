@@ -26,7 +26,7 @@ A WeChat Mini Program designed for cat owners to monitor health metrics, visuali
 │   ├── miniprogram_npm # Third-party component libraries
 │   └── app.json        # Global configuration
 └── cloudfunctions      # Server-side logic (optional)
-
+```
 ## Getting Started
 
 Follow these steps to set up the development environment and run the project locally.
